@@ -1,18 +1,5 @@
 'use strict';
 
-// const events = require('../events.js');
-
-// events.on('pickup', (payload) => log('pickup', payload));
-// events.on('in-transit', (payload) => log('in-transit', payload));
-// events.on('delivered', (payload) => log('delivered', payload));
-
-// function log(event, payload) {
-//   let time = new Date();
-//   console.log('EVENT LOG', { time, event, payload });
-// }
-
-'use strict';
-
 const net = require('net');
 const server = net.createServer();
 const port = process.env.PORT || 4000;

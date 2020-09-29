@@ -1,27 +1,8 @@
-// 'use strict';
-
-// const events = require('./events.js');
-
-// events.on('pickup', pickupHandler);
-
-// function pickupHandler(payload) {
-//   setTimeout(() => {
-//     console.log(`DRIVER: picked up ${payload.orderId}`);
-//     events.emit('in-transit', payload);
-//     setTimeout(() => {
-//       console.log('Delivered');
-//       events.emit('delivered', payload);
-//     }, 3000);
-//   }, 1000);
-// }
-
 'use strict';
 
 const net = require('net');
 
-const client = new net.Socket(); // create a socket connection
-// connect it to server.js : localhost port: 4000;
-
+const client = new net.Socket(); 
 const host = process.env.HOST || 'localhost';
 const port = process.env.PORT || 4000;
 

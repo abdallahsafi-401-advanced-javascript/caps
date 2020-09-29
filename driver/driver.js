@@ -1,33 +1,21 @@
 'use strict';
 
-const net = require('net');
+const io = require('socket.io-client');
+const socket = io.connect('http://localhost:3000/caps');
 
-const client = new net.Socket(); 
-const host = process.env.HOST || 'localhost';
-const port = process.env.PORT || 4000;
+socket.on('connect', () => {
+  
+  //join room driver
+  socket.emit('join', 'driver');
 
-client.connect(port, host, () => {
-  console.log('Driver is connected to Server! .. ');
-});
-
-client.on('data', (data) => {
-  let msg = JSON.parse(data);
-  if (msg.event === 'pickup') {
+  socket.on('pickup', (payload) => {
     setTimeout(() => {
-      console.log(`DRIVER: picked up ${msg.payload.orderId}`);
-      sendMessageToServer('in-transit',msg.payload);
+      console.log(`DRIVER: picked up ${payload.orderId}`);
+      socket.emit('in-transit', payload);
       setTimeout(() => {
-        sendMessageToServer('delivered',msg.payload);
+        console.log(`delivered ${payload.orderId}`);
+        socket.emit('delivered', payload);
       }, 3000);
-    }, 1000);
-  }
+    }, 1500);
+  });
 });
-
-client.on('close', function () {
-  console.log('connection is closed!!');
-});
-
-function sendMessageToServer(event, payload) {
-  const msg = JSON.stringify({event: event, payload: payload});
-  client.write(msg);
-}
